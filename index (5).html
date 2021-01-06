@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CG Project</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+        <script src="js/three.js"></script>
+        <script src="js/OrbitalControls.js"></script>
+        
+        <!-- <div>
+            <h4>CG Project</h4>
+            <h3>Idrees Ahmed (FA17-bse-054)</h3>
+            <h3>Mujtaba Ahmed (FA17-bse-061)</h3>
+        </div> -->
+        <!-- <script type="module">
+
+          // Find the latest version by visiting https://unpkg.com/three. The URL will
+          // redirect to the newest stable release.
+          
+        
+          //  const controls = new OrbitControls();
+        
+        </script> -->
+        <!-- <script src="https://unpkg.com/three/examples/jsm/controls/OrbitControls.js"></script> -->
+        <!-- <script src="https://threejs.org/build/three.js"></script> -->
+		<script>
+      // import { OrbitControls } from "/js/OrbitalControls.js";
+			var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+            const loader = new THREE.TextureLoader();
+
+            var renderer = new THREE.WebGLRenderer({antialias: true, alpha:true });
+            
+        //     const sceneTexture = loader.load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRNsUZOTKDQp-dTZGZ532CTXBVXAH4XbUBiA&usqp=CAU");
+        //    scene.background(sceneTexture);
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+           
+//             var texture = new THREE.TextureLoader().load(
+//       "https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+//     );
+//    scene.background = texture;
+
+// const  controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+//controls.update() must be called after any manual changes to the camera's transform
+// controls.update();
+
+// var controls = new THREE.OrbitControls(camera, renderer.domElement);
+//   controls.enabled = true;
+//   controls.minDistance = 700;
+//   controls.maxDistance = 1500;
+//   controls.autoRotate = true;
+//   controls.autoRotateSpeed = 1.0;
+
+
+var urls = [
+    "https://images.pexels.com/photos/2919587/pexels-photo-2919587.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+
+    //   "https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg",
+    //   "https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg",
+    //   "https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg",
+    //   "https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg",
+    //   "https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg",
+    //   "https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg"
+    ];
+
+    var materialArray = [];
+    for (var i = 0; i < 6; i++)
+      materialArray.push(
+        new THREE.MeshBasicMaterial({
+          map: new THREE.TextureLoader().load(urls[i]),
+          side: THREE.BackSide
+        })
+      );
+
+    var skyGeometry = new THREE.SphereGeometry(4.5, 32, 16);
+    var skyMaterial = new THREE.MeshFaceMaterial(materialArray);
+    var skybox = new THREE.Mesh(skyGeometry, skyMaterial);
+    scene.add(skybox);
+
+            // SCENE
+            // const scene = new THREE.Scene();
+
+            // TEXTURES
+      
+
+            const sunTexture = loader.load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRNsUZOTKDQp-dTZGZ532CTXBVXAH4XbUBiA&usqp=CAU");
+            const sunMaterial = new THREE.MeshStandardMaterial({ color: "yellow", map: sunTexture  });
+            const sun =new THREE.SphereGeometry(1, 32, 16);
+           // const material = new THREE.MeshBasicMaterial( {color: 0xffff00,wireframe:false} );
+            const cube = new THREE.Mesh( sun, sunMaterial );
+            scene.add( cube );
+
+
+
+            const mercuryTexture = loader.load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGHbZZa3dgQsHQSbO6Ua1oRCFn5GltIM0M_w&usqp=CAU");
+            const mercuryMaterial = new THREE.MeshStandardMaterial({ map: mercuryTexture  });
+
+            const geometry = new THREE.SphereGeometry(1, 32, 16);
+            const mercuryMesh = new THREE.Mesh(geometry, mercuryMaterial);
+            mercuryMesh.position.set(3.2, 0, 0);
+             mercuryMesh.scale.setScalar(0.4);
+            scene.add(mercuryMesh);
+
+            const venusTexture = loader.load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQgiVM7Ef5ZQYsk63erIOaMfuDS0UuwU4QaA&usqp=CAU");
+            const venusMaterial = new THREE.MeshStandardMaterial({  map: venusTexture  });
+            const venus =new THREE.SphereGeometry(1, 32, 16);
+           // const material = new THREE.MeshBasicMaterial( {color: 0xffff00,wireframe:false} );
+            const Venus = new THREE.Mesh( venus, venusMaterial );
+            Venus.position.set(-3, 0, 0);
+            Venus.scale.setScalar(0.5);
+            scene.add( Venus );
+
+            const earthTexture = loader.load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX1taIImu9zAQGLHbxqQOi4fFpWSVkObhBHg&usqp=CAU");
+            const earthMaterial = new THREE.MeshStandardMaterial({ map: earthTexture});
+            const earthGeometry =new THREE.SphereGeometry(1, 32, 16);
+            const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
+            earthMesh.position.set(-0.9, -0.8, 3);
+            earthMesh.scale.setScalar(0.25);
+            scene.add(earthMesh);
+
+            const neptuneTexture = loader.load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTFenx_dnaC-D2L1XOMhRW9SN-VZhgh50zVA&usqp=CAU");
+            const neptuneMaterial = new THREE.MeshStandardMaterial({ map: neptuneTexture});
+            const neptuneGeometry =new THREE.SphereGeometry(1, 32, 16);
+            const neptuneMesh = new THREE.Mesh(neptuneGeometry, neptuneMaterial);
+            neptuneMesh.position.set(0.9, -0.8, 3);
+            neptuneMesh.scale.setScalar(0.2);
+            scene.add(neptuneMesh);
+
+            const marsTexture = loader.load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDkpgVR0xhMB62zGUsosAf_PyBGvZCd18cOA&usqp=CAU");
+            const marsMaterial = new THREE.MeshStandardMaterial({ map: marsTexture});
+            const marsGeometry =new THREE.SphereGeometry(1, 32, 16);
+            const marsMesh = new THREE.Mesh(marsGeometry, marsMaterial);
+            marsMesh.position.set(1.8, -0.8, 3);
+            marsMesh.scale.setScalar(0.175);
+            scene.add(marsMesh);
+
+           // https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTh14oW3L9yRBClAnWWkvHNhVq39NlnoU_eUQ&usqp=CAU
+            const jupiterTexture = loader.load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7ghxez6hnUBOc57Z134eFgU8Apa6WkDl44A&usqp=CAU");
+          
+            const jupiterMaterial = new THREE.MeshStandardMaterial({ map: jupiterTexture});
+            const jupiterGeometry =new THREE.SphereGeometry(1, 32, 16);
+            const jupiterMesh = new THREE.Mesh(jupiterGeometry, jupiterMaterial);
+            jupiterMesh.position.set(-1.8, -0.8, 3);
+            jupiterMesh.scale.setScalar(0.175);
+            scene.add(jupiterMesh);
+
+            const ogeometry =new THREE.TorusGeometry( 4, 0.001, 2, 100 );
+            const omaterial = new THREE.MeshBasicMaterial( { color: "yellow",wireframe:true } );
+            const orbit1 = new THREE.Mesh( ogeometry, omaterial );
+            orbit1.position.set(0, 0, 0);
+            orbit1.scale.setScalar(0.8);
+            orbit1.rotation.x = 5;
+            scene.add( orbit1 );
+
+            const cgeometry =new THREE.TorusGeometry( 4.5, 0.001, 2, 100 );
+            const circle = new THREE.Mesh( cgeometry, omaterial );
+            circle.position.set(0, 0, 0);
+            circle.scale.setScalar(0.8);
+            circle.rotation.x = 5;
+            scene.add( circle );
+
+            const orbit2 = new THREE.Mesh( ogeometry, omaterial );
+            orbit2.position.set(0, 0, 0);
+            orbit2.scale.setScalar(0.7);
+            orbit2.rotation.x = 5;
+            scene.add( orbit2 );
+
+            const jgeometry =new THREE.TorusGeometry( 3, 0.2, 20, 50 );
+            const jmaterial = new THREE.MeshBasicMaterial( { color: "gray",wireframe:true } );
+            const Jupiterorbit = new THREE.Mesh( jgeometry, jupiterMaterial );
+            Jupiterorbit.position.set(-1.8, -0.8, 3);
+            Jupiterorbit.scale.setScalar(0.1);
+            Jupiterorbit.rotation.x = 5;
+            scene.add( Jupiterorbit );
+            // const orbit = new THREE.SphereGeometry(1, 32, 16);
+            // const orbitMaterial = new THREE.MeshStandardMaterial({ wireframe:true  });
+            // const orbitMesh = new THREE.Mesh(orbit, orbitMaterial);
+            // mercuryMesh.position.set(3, 0, 0);
+            //  mercuryMesh.scale.setScalar(0.8);
+            // scene.add(orbitMesh);
+
+            
+  // LIGHTING
+            // const light = new THREE.PointLight("white", 1.25);
+            // light.position.set(0, 0, 0);
+            // scene.add(light);
+            //Lights
+var light1 = new THREE.PointLight("white", 1, 0, 0);
+light1.position.set(0, 0, 0);
+scene.add(light1);
+
+var light2 = new THREE.AmbientLight(0x090909);
+light2.position.set(0,0,0);
+scene.add(light2);
+
+var directlight = new THREE.DirectionalLight(0xffeedd,1.2);
+            directlight.position.x=20;
+            directlight.position.y=20;
+            directlight.position.z=90;
+            // directlight.target = cube;
+            scene.add(directlight);
+
+
+// var light = new THREE.PointLight(0xffffff, 1, Infinity);
+// camera.add(light);
+//             const geometry = new THREE.CircleBufferGeometry( 5, 32 );
+// const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+// const circle = new THREE.Mesh( geometry, material );
+// scene.add( circle );
+var camera_pivot = new THREE.Object3D()
+var Y_AXIS = new THREE.Vector3( 0, 1, 0 );
+
+scene.add( camera_pivot );
+camera_pivot.add( camera );
+// camera.position.set( 500, 0, 0 );
+camera.lookAt( camera_pivot.position );
+   // radians
+
+
+
+
+            camera.position.z = 5;
+     
+
+        
+
+            var animate = function () {
+                requestAnimationFrame( animate );
+
+                cube.rotation.x += 0.002;
+                cube.rotation.y += 0.001;
+                // circle.rotation.x += 0.002;
+                // circle.rotation.y += 0.001;
+
+                mercuryMesh.rotation.x += 0.01;
+                // mercuryMesh.rotation.y += 0.01;
+                Venus.rotation.x += 0.01;
+                Venus.rotation.y += 0.01;
+
+                earthMesh.rotation.x += 0.003;
+                neptuneMesh.rotation.x += 0.003;
+                marsMesh.rotation.x += 0.004;
+
+                jupiterMesh.rotation.x += 0.002;
+                jupiterMesh.rotation.y += 0.01;
+
+                Jupiterorbit.rotation.z += 0.01;
+                // earthMesh.rotation.y += 0.01;
+                camera_pivot.rotateOnAxis( Y_AXIS, 0.0005 ); 
+
+                renderer.render( scene, camera );
+            };
+
+            animate();
+
+        </script>
+        <!-- <h1>Three.js </h1> -->
+	</body>
+</html>
